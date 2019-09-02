@@ -4,6 +4,12 @@
 #
 ###############################################################################
 
+variable "modulemap" {
+    default = {
+         "generic-sg": ["../geneirc-sg", "git@github.com:aws-cert-terraform/generic-iam-role.git"]
+    }
+}
+
 
 variable "aws_access_key" {
     description = "The AWS access key."
@@ -20,6 +26,14 @@ variable "aws_region" {
     default = "us-east-2"
 }
 
+variable "subnets" {
+    default = 1
+}
+
+variable "local" {
+    default = true
+}
+
 variable "azs" {
     default = {
         "us-east-2" = "us-east-2a,us-east-2b"
@@ -33,18 +47,12 @@ variable "azs" {
 # Tags
 #
 ###############################################################################
-variable "name" {
-    default = "generic-vpc"
-}
 
-variable "project" {
-    default = "aws-cert"
-}
-
-variable "owner" {
-    default = "icullinane"
-}
-
-variable "environment" {
-    default = "dev"
+variable "tags" {
+    default = {
+        "name": "generic",
+        "project":"aws-certs",
+        "owner" :"icullinane",
+        "environment" : "dev"
+    }
 }
