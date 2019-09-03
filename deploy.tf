@@ -27,7 +27,6 @@ module "aws_cert_vpc" {
   name = "${var.tags.name}"
   vpc_cidr = "${var.vpc_cidr}"
   tags = var.tags
-
 }
 
 /*
@@ -39,20 +38,18 @@ module "general_access_iam_role" {
   prefix = "${var.tags.owner}-"
 }
 
-
-
 /*
 Security Group to contain rules regarding web servers
 */
 module "web_dmz" {
   source = "git@github.com:aws-cert-terraform/generic-sg.git"
-  name = "${var.tags.name}"
+  name = "  ${var.tags.name}-${var.tags.owner}-web_dmz"
   vpc_id = "${module.aws_cert_vpc.vpc_id}"
 }
 
 # Security groups
 resource "aws_security_group" "mysql_sg" {
-  name = "${var.tags.name}-mysql-sg"
+  name = "$${var.tags.name}-${var.tags.owner}-mysql_sg"
   vpc_id = "${module.aws_cert_vpc.vpc_id}"
 }
 
@@ -62,7 +59,7 @@ TODO::Pass in rules
 */
 module "aws_cert_generic_sg" {
   source = "git@github.com:aws-cert-terraform/generic-sg.git"
-  name = "generic-sg"
+  name = "generic_access_sg_${var.tags.name}-${var.tags.owner}"
   vpc_id = "${module.aws_cert_vpc.vpc_id}"
 }
 
@@ -96,6 +93,7 @@ module "aws_cert_generic_db" {
 
 /*
 Application load balancer
+- Handles its own S3 log bucket
 */
 module "aws_cert_generic_lb" {
   source = "git@github.com:aws-cert-terraform/generic-lb.git"
@@ -103,8 +101,6 @@ module "aws_cert_generic_lb" {
   vpc_id = "${module.aws_cert_vpc.vpc_id}"
   security_groups = ["${module.aws_cert_generic_sg.security_group_id}"]
   subnet_ids = values(module.aws_cert_vpc.public_subnets)
-  // log_bucket_name = "${var.tags.name}-${var.tags.owner}"
-  // log_bucket_name = "${module.aws_cert_s3_bucket.bucket_domain_name}"
 }
 
 
@@ -118,9 +114,12 @@ module "ec2_web_server" {
   key_name = "cert-key-e2"
   iam_profile_name = "${module.general_access_iam_role.iam_profile_name}"
   vpc_id = "${module.aws_cert_vpc.vpc_id}"
-  vpc_security_group_ids = ["${module.aws_cert_generic_sg.security_group_id}", "${module.web_dmz.security_group_id}"]
+  vpc_security_group_ids = [
+    "${module.aws_cert_generic_sg.security_group_id}", 
+    "${module.web_dmz.security_group_id}"
+  ]
   vpc_subnet_id = lookup(module.aws_cert_vpc.public_subnets, "2a")
-  prefix = "${var.tags.owner}-"
+  prefix = "${var.tags.owner}"
   public = true
 }
 
@@ -132,5 +131,4 @@ resource "aws_lb_target_group_attachment" "test" {
   target_group_arn = "${module.aws_cert_generic_lb.target_group_arn}"
   target_id        = "${module.ec2_web_server.instance_id}"
   port             = 80
->>>>>>> 4f86350... working deployment up to lb
 }

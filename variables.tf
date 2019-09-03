@@ -10,15 +10,20 @@ variable "modulemap" {
     }
 }
 
+variable "vpc_cidr" {
+    description = "Passed in cidr map"
+    default     = "10.2.0.0/16"
+}
+
 
 variable "aws_access_key" {
     description = "The AWS access key."
-    default = "..."
+    default = "AKIAVBFH4B6WQG54TQVB"
 }
 
 variable "aws_secret_key" {
     description = "The AWS secret key."
-    default = "..."
+    default = "ntFpH5YQX/UqpfJEt+L+/L0LGfbn8qONUT+CT+Ng"
 }
 
 variable "aws_region" {
