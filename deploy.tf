@@ -8,8 +8,6 @@
 provider "ignition" {}
 
 
-
-
 # Configure the AWS Provider
 provider "aws" {
   version = "~> 2.0"

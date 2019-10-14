@@ -18,12 +18,12 @@ variable "vpc_cidr" {
 
 variable "aws_access_key" {
     description = "The AWS access key."
-    default = "AKIAVBFH4B6WQG54TQVB"
+    default = "..."
 }
 
 variable "aws_secret_key" {
     description = "The AWS secret key."
-    default = "ntFpH5YQX/UqpfJEt+L+/L0LGfbn8qONUT+CT+Ng"
+    default = "..."
 }
 
 variable "aws_region" {
