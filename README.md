@@ -1,8 +1,8 @@
 # aws-certs-main
 
-This repo is for educational purposes of myself and my co-workers. It both allows me to try new techniques, and provides a platform to introduce cloud computing and IaC
+This repo (really this entire org) is for educational purposes of myself and my co-workers. It both allows me to try new techniques, and provides a platform to introduce cloud computing and IaC
 
-!!Contents
+## Contents
 
 There are several distinct applications and platforms that can be launched using these repos. I will try and add runbooks for each in the future. Until then...
 
