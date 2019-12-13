@@ -1,5 +1,4 @@
 # aws-certs-main
-================
 
 This repo is for educational purposes of myself and my co-workers. It both allows me to try new techniques, and provides a platform to introduce cloud computing and IaC
 
